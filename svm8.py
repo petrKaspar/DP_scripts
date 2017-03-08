@@ -7,8 +7,8 @@ from sklearn import svm
 
 x = [1, 5, 1.5, 8, 1, 9]
 y = [2, 8, 1.8, 8, 0.6, 11]
+plt.figure(0)
 plt.scatter(x,y)
-plt.show()
 
 X = np.array([[1,2],
              [5,8],
@@ -23,8 +23,8 @@ clf = svm.SVC(kernel='linear', C = 1.0)
 clf.fit(X,y)
 
 # zobrazi se cisla skupiny, do ktere patri predikovane (predpovidane) hodnoty
-print(clf.predict([0.58,0.76]))
-print(clf.predict([10.58,10.76]))
+print('[0.58,0.76] is in: ', clf.predict([0.58,0.76]))
+print('[10.58,10.76] is in: ', clf.predict([10.58,10.76]))
 
 # ------- Vykresleni grafu i s linearni primkou, oddelujici obe skupiny v grafu
 w = clf.coef_[0]
@@ -37,6 +37,7 @@ yy = a * xx - clf.intercept_[0] / w[1]
 
 h0 = plt.plot(xx, yy, 'k-', label="non weighted div")
 
+plt.figure(1)
 plt.scatter(X[:, 0], X[:, 1], c = y)
 plt.legend()
 plt.show()

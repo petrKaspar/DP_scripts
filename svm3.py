@@ -1,65 +1,54 @@
+# https://pythonprogramming.net/linear-svc-example-scikit-learn-svm-python/
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import svm, datasets
-import cv2
+from matplotlib import style
+style.use("ggplot")
+from sklearn import svm
 
+x = [1, 5, 1.5, 8, 1, 9]
+y = [2, 8, 1.8, 8, 0.6, 11]
+z = [2, 8, 1.8, 8, 0.6, 11]
 
-def hog():
-    hog = cv2.HOGDescriptor()
-    im = cv2.imread('img3.bmp')
-    plt.figure(0)
-    plt.imshow(im)
-    plt.figure(1)
-    h = hog.compute(im)
-    print(h)
-    print(h.shape)
-    # plt.scatter(h)
+plt.figure(0)
+plt.scatter(x,y)
 
+X = np.array([[1,2],
+             [5,8],
+             [1.5,1.8],
+             [8,8],
+             [1,0.6],
+             [9,11]])
 
-hog()
-# import some data to play with
-iris = datasets.load_iris()
-X = iris.data[:, :2] # we only take the first two features. We could
-# avoid this ugly slicing by using a two-dim dataset
+X = np.array([[1,2,2],
+             [5,8,8],
+             [1.5,1.8,1],
+             [8,8,9],
+             [1,0.6,0.7],
+             [9,11,7]])
+
 print(X.shape)
-y = iris.target
-print('X = ',X)
-print('--------------------------------------------------------------------')
-print('y = ',y)
 
+y = [0,1,0,1,0,1]
 
-# we create an instance of SVM and fit out data. We do not scale our
-# data since we want to plot the support vectors
-C = 1.0 # SVM regularization parameter
-svc = svm.SVC(kernel='linear', C=1,gamma='auto').fit(X, y)
+clf = svm.SVC(kernel='linear', C = 1.0)
+clf.fit(X,y)
 
-# create a mesh to plot in
-x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-h = (x_max / x_min)/100
-xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-np.arange(y_min, y_max, h))
+# zobrazi se cisla skupiny, do ktere patri predikovane (predpovidane) hodnoty
+print('[0.58,0.76, 1] is in: ', clf.predict([0.58,0.76, 1]))
+print('[10.58,10.76, 9] is in: ', clf.predict([10.58,10.76, 9]))
 
-plt.figure(2)
-plt.subplot(1, 1, 1)
-Z = svc.predict(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
-plt.contourf(xx, yy, Z, cmap=plt.cm.Paired, alpha=0.8)
-
-plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.Paired)
-plt.xlabel('Sepal length')
-plt.ylabel('Sepal width')
-plt.xlim(xx.min(), xx.max())
-plt.title('SVC with linear kernel')
-plt.show()
-
-
-
-
-
-
-
-
-
-
-
+# ------- Vykresleni grafu i s linearni primkou, oddelujici obe skupiny v grafu
+# w = clf.coef_[0]
+# print(w)
+#
+# a = -w[0] / w[1]
+#
+# xx = np.linspace(0,12)
+# yy = a * xx - clf.intercept_[0] / w[1]
+#
+# h0 = plt.plot(xx, yy, 'k-', label="non weighted div")
+#
+# plt.figure(1)
+# plt.scatter(X[:, 0], X[:, 1], c = y)
+# plt.legend()
+# plt.show()
