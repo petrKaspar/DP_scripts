@@ -2,6 +2,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import style
+from sklearn.metrics import confusion_matrix
+
 style.use("ggplot")
 from sklearn import svm
 
@@ -12,13 +14,6 @@ z = [2, 8, 1.8, 8, 0.6, 11]
 plt.figure(0)
 plt.scatter(x,y)
 
-X = np.array([[1,2],
-             [5,8],
-             [1.5,1.8],
-             [8,8],
-             [1,0.6],
-             [9,11]])
-
 X = np.array([[1,2,2],
              [5,8,8],
              [1.5,1.8,1],
@@ -28,7 +23,7 @@ X = np.array([[1,2,2],
 
 print(X.shape)
 
-y = [0,1,0,1,0,1]
+y = ['a','asd','a','asd','a','asd']
 
 clf = svm.SVC(kernel='linear', C = 1.0)
 clf.fit(X,y)
@@ -36,6 +31,16 @@ clf.fit(X,y)
 # zobrazi se cisla skupiny, do ktere patri predikovane (predpovidane) hodnoty
 print('[0.58,0.76, 1] is in: ', clf.predict([0.58,0.76, 1]))
 print('[10.58,10.76, 9] is in: ', clf.predict([10.58,10.76, 9]))
+
+
+X_test = np.array([[1.2,2.2, 1.2],
+             [5.3,8.1,7.2],
+             [1.2,1.1, 0.5]])
+y_test = ['a','asd','a']
+print(X_test)
+predicted = clf.predict(X_test)
+cnf_matrix = confusion_matrix(y_test, predicted)
+print("cnf_matrix:\n ", cnf_matrix)
 
 # ------- Vykresleni grafu i s linearni primkou, oddelujici obe skupiny v grafu
 # w = clf.coef_[0]

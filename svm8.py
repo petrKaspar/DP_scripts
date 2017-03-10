@@ -2,8 +2,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import style
-style.use("ggplot")
 from sklearn import svm
+from sklearn.metrics import confusion_matrix
+style.use("ggplot")
 
 x = [1, 5, 1.5, 8, 1, 9]
 y = [2, 8, 1.8, 8, 0.6, 11]
@@ -25,6 +26,16 @@ clf.fit(X,y)
 # zobrazi se cisla skupiny, do ktere patri predikovane (predpovidane) hodnoty
 print('[0.58,0.76] is in: ', clf.predict([0.58,0.76]))
 print('[10.58,10.76] is in: ', clf.predict([10.58,10.76]))
+
+
+X_test = np.array([[1.2,2.2],
+             [5.3,8.1],
+             [1.2,1.1]])
+y_test = [0,1,0]
+print(X_test)
+predicted = clf.predict(X_test)
+cnf_matrix = confusion_matrix(y_test, predicted)
+print("cnf_matrix: ", cnf_matrix)
 
 # ------- Vykresleni grafu i s linearni primkou, oddelujici obe skupiny v grafu
 w = clf.coef_[0]

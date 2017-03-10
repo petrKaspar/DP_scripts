@@ -23,3 +23,5 @@ print(cnf_matrix)
 # [[16  0  0]
 #  [ 0 13  5]
 # [ 0 4 7]]
+#
+# 3 sloupce, protoze jsou tam 3 skupiny; Jednotliva cisla pak znamenaji, kolik objektu sa priradilo do jake skupiny
